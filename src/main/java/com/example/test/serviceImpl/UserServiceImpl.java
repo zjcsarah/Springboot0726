@@ -33,6 +33,26 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserBean queryUserById(String id) {
+        //冒泡排序  将id最小的放在第一位
+        for (int i = 0; i < userMapper.getAllUser().size(); i++) {
+            for (int j = 0; j < userMapper.getAllUser().size()-1; j++) {
+                if (userMapper.getAllUser().get(j).getId() > userMapper.getAllUser().get(j+1).getId()) {
+                    UserBean temp = userMapper.getAllUser().get(j);
+                    userMapper.getAllUser().set(j,userMapper.getAllUser().get(j+1));
+                    userMapper.getAllUser().set(j+1,temp);
+                }
+            }
+        }
+        //堆排序  将id最大的放在最后一位
+        for (int i = userMapper.getAllUser().size()-1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (userMapper.getAllUser().get(j).getId() < userMapper.getAllUser().get(j+1).getId()) {
+                    UserBean temp = userMapper.getAllUser().get(j);
+                    userMapper.getAllUser().set(j,userMapper.getAllUser().get(j+1));
+                    userMapper.getAllUser().set(j+1,temp);
+                }
+            }
+        }
         return userMapper.selectUserById(id);
     }
 
@@ -45,6 +65,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public int addUser(UserBean userBean) {
         int aFlag = userMapper.insertUser(userBean);
+
+        //冒泡排序
+
+        for (int i = 0; i < userMapper.getAllUser().size(); i++) {
+            for (int j = 0; j < userMapper.getAllUser().size()-1; j++) {
+                if (userMapper.getAllUser().get(j).getId() > userMapper.getAllUser().get(j+1).getId()) {
+                    UserBean temp = userMapper.getAllUser().get(j);
+                    userMapper.getAllUser().set(j,userMapper.getAllUser().get(j+1));
+                    userMapper.getAllUser().set(j+1,temp);
+                }
+            }
+        }
         return aFlag;
     }
 
