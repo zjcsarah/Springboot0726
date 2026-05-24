@@ -1,7 +1,3 @@
-<!--
-  登录/注册页面
-  Vue 单文件组件(.vue)：包含模板(template)、逻辑(script)、样式(style) 三部分
--->
 <template>
   <div class="login-page">
     <div class="login-box">
@@ -63,10 +59,11 @@
   </div>
 </template>
 
-<!--
-  <script setup>: Vue 3 组合式 API 语法糖，无需手动 return，顶层变量自动暴露给模板
--->
 <script setup>
+/*
+ * <script setup>: Vue 3 组合式 API 语法糖
+ * 无需手动 return，顶层变量自动暴露给模板
+ */
 // 导入 Vue 组合式 API 工具函数
 import { ref, reactive } from 'vue'
 // useRouter: Vue Router 提供的路由跳转钩子
@@ -164,10 +161,10 @@ async function doRegister() {
 }
 </script>
 
-<!--
-  scoped: 样式只作用于当前组件，不会影响其他组件
--->
 <style scoped>
+/*
+ * scoped: 样式只作用于当前组件，不会影响其他组件
+ */
 /* 登录页全屏居中背景 */
 .login-page {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
