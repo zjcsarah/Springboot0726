@@ -23,9 +23,10 @@ public class ReaderController {
     @GetMapping
     public Map<String, Object> listReaders(
             @RequestParam(defaultValue = "1") int pageNum,
-            @RequestParam(defaultValue = "10") int pageSize) {
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(required = false) String keyword) {
         Map<String, Object> map = new HashMap<>();
-        IPage<UserBean> page = userService.queryReaders(pageNum, pageSize);
+        IPage<UserBean> page = userService.queryReaders(pageNum, pageSize, keyword);
         map.put("code", 0);
         map.put("data", page);
         return map;
@@ -56,6 +57,27 @@ public class ReaderController {
             map.put("code", -1);
             map.put("msg", "用户名或密码错误");
         }
+        return map;
+    }
+
+    /** 修改读者信息 */
+    @PutMapping("/{id}")
+    public Map<String, Object> updateReader(@PathVariable String id, @RequestBody UserBean userBean) {
+        Map<String, Object> map = new HashMap<>();
+        userBean.setId(Integer.parseInt(id));
+        int flag = userService.modifyUser(userBean);
+        map.put("code", flag == 1 ? 0 : -1);
+        map.put("msg", flag == 1 ? "修改成功" : "修改失败");
+        return map;
+    }
+
+    /** 删除读者 */
+    @DeleteMapping("/{id}")
+    public Map<String, Object> deleteReader(@PathVariable String id) {
+        Map<String, Object> map = new HashMap<>();
+        int flag = userService.dropUser(id);
+        map.put("code", flag == 1 ? 0 : -1);
+        map.put("msg", flag == 1 ? "删除成功" : "删除失败");
         return map;
     }
 

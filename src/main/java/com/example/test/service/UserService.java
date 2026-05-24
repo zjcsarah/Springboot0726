@@ -28,6 +28,6 @@ public interface UserService {
     /** 查询所有用户 */
     List<UserBean> queryAllUser();
 
-    /** 分页查询读者列表（仅角色为 user） */
-    IPage<UserBean> queryReaders(int pageNum, int pageSize);
+    /** 分页查询读者列表（仅角色为 user，支持关键词搜索） */
+    IPage<UserBean> queryReaders(int pageNum, int pageSize, String keyword);
 }

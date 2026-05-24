@@ -73,4 +73,22 @@ public class BorrowServiceImpl implements BorrowService {
     public IPage<BorrowRecordBean> queryAllBorrows(int pageNum, int pageSize) {
         return borrowRecordMapper.selectAllRecords(new Page<>(pageNum, pageSize));
     }
+
+    /** 新增借阅记录（管理员手动创建） */
+    @Override
+    public int addBorrowRecord(BorrowRecordBean record) {
+        return borrowRecordMapper.insert(record);
+    }
+
+    /** 修改借阅记录 */
+    @Override
+    public int updateBorrowRecord(BorrowRecordBean record) {
+        return borrowRecordMapper.updateById(record);
+    }
+
+    /** 删除借阅记录 */
+    @Override
+    public int deleteBorrowRecord(String id) {
+        return borrowRecordMapper.deleteById(id);
+    }
 }

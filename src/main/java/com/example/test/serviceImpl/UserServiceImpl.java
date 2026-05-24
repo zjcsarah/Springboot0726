@@ -56,12 +56,15 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectList(null);
     }
 
-    /** 分页查询读者列表（仅角色为 user） */
+    /** 分页查询读者列表（仅角色为 user，支持关键词搜索） */
     @Override
-    public IPage<UserBean> queryReaders(int pageNum, int pageSize) {
+    public IPage<UserBean> queryReaders(int pageNum, int pageSize, String keyword) {
         Page<UserBean> page = new Page<>(pageNum, pageSize);
         QueryWrapper<UserBean> wrapper = new QueryWrapper<>();
         wrapper.eq("role", "user");
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            wrapper.like("name", keyword);
+        }
         return userMapper.selectPage(page, wrapper);
     }
 }

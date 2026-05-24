@@ -19,4 +19,13 @@ public interface BorrowService {
 
     /** 分页查询所有借阅记录 */
     IPage<BorrowRecordBean> queryAllBorrows(int pageNum, int pageSize);
+
+    /** 新增借阅记录（管理员手动创建） */
+    int addBorrowRecord(BorrowRecordBean record);
+
+    /** 修改借阅记录 */
+    int updateBorrowRecord(BorrowRecordBean record);
+
+    /** 删除借阅记录 */
+    int deleteBorrowRecord(String id);
 }

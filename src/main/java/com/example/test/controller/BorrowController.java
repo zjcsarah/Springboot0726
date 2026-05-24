@@ -53,6 +53,37 @@ public class BorrowController {
         return map;
     }
 
+    /** 新增借阅记录（管理员手动创建） */
+    @PostMapping("/borrows")
+    public Map<String, Object> addBorrow(@RequestBody BorrowRecordBean record) {
+        Map<String, Object> map = new HashMap<>();
+        int flag = borrowService.addBorrowRecord(record);
+        map.put("code", flag == 1 ? 0 : -1);
+        map.put("msg", flag == 1 ? "新增成功" : "新增失败");
+        return map;
+    }
+
+    /** 修改借阅记录 */
+    @PutMapping("/borrows/{id}")
+    public Map<String, Object> updateBorrow(@PathVariable String id, @RequestBody BorrowRecordBean record) {
+        Map<String, Object> map = new HashMap<>();
+        record.setId(Integer.parseInt(id));
+        int flag = borrowService.updateBorrowRecord(record);
+        map.put("code", flag == 1 ? 0 : -1);
+        map.put("msg", flag == 1 ? "修改成功" : "修改失败");
+        return map;
+    }
+
+    /** 删除借阅记录 */
+    @DeleteMapping("/borrows/{id}")
+    public Map<String, Object> deleteBorrow(@PathVariable String id) {
+        Map<String, Object> map = new HashMap<>();
+        int flag = borrowService.deleteBorrowRecord(id);
+        map.put("code", flag == 1 ? 0 : -1);
+        map.put("msg", flag == 1 ? "删除成功" : "删除失败");
+        return map;
+    }
+
     /** 分页查询所有借阅记录 */
     @GetMapping("/borrows/all")
     public Map<String, Object> allBorrows(
