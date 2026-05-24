@@ -1,13 +1,13 @@
 package com.example.test.serviceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.test.bean.BookBean;
 import com.example.test.mapper.BookMapper;
 import com.example.test.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 图书业务逻辑实现
@@ -18,17 +18,19 @@ public class BookServiceImpl implements BookService {
     @Autowired
     BookMapper bookMapper;
 
-    /** 查询所有图书，按ID倒序 */
+    /** 分页查询所有图书，按ID倒序 */
     @Override
-    public List<BookBean> queryAllBooks() {
+    public IPage<BookBean> queryAllBooks(int pageNum, int pageSize) {
+        Page<BookBean> page = new Page<>(pageNum, pageSize);
         QueryWrapper<BookBean> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("id");
-        return bookMapper.selectList(wrapper);
+        return bookMapper.selectPage(page, wrapper);
     }
 
-    /** 根据关键词和分类搜索图书 */
+    /** 分页搜索图书 */
     @Override
-    public List<BookBean> searchBooks(String keyword, String category) {
+    public IPage<BookBean> searchBooks(String keyword, String category, int pageNum, int pageSize) {
+        Page<BookBean> page = new Page<>(pageNum, pageSize);
         QueryWrapper<BookBean> wrapper = new QueryWrapper<>();
         if (keyword != null && !keyword.isEmpty()) {
             wrapper.and(w -> w.like("title", keyword).or().like("author", keyword));
@@ -37,7 +39,7 @@ public class BookServiceImpl implements BookService {
             wrapper.eq("category", category);
         }
         wrapper.orderByDesc("id");
-        return bookMapper.selectList(wrapper);
+        return bookMapper.selectPage(page, wrapper);
     }
 
     /** 根据ID查询图书详情 */

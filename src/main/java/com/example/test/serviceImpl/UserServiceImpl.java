@@ -1,5 +1,8 @@
 package com.example.test.serviceImpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.test.bean.UserBean;
 import com.example.test.mapper.UserMapper;
 import com.example.test.service.UserService;
@@ -43,8 +46,6 @@ public class UserServiceImpl implements UserService {
 
     /** 修改用户信息 */
     @Override
-
-
     public int modifyUser(UserBean userBean) {
         return userMapper.updateById(userBean);
     }
@@ -53,5 +54,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserBean> queryAllUser() {
         return userMapper.selectList(null);
+    }
+
+    /** 分页查询读者列表（仅角色为 user） */
+    @Override
+    public IPage<UserBean> queryReaders(int pageNum, int pageSize) {
+        Page<UserBean> page = new Page<>(pageNum, pageSize);
+        QueryWrapper<UserBean> wrapper = new QueryWrapper<>();
+        wrapper.eq("role", "user");
+        return userMapper.selectPage(page, wrapper);
     }
 }

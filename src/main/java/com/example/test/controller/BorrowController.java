@@ -1,12 +1,12 @@
 package com.example.test.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.BorrowRecordBean;
 import com.example.test.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +19,7 @@ public class BorrowController {
     @Autowired
     BorrowService borrowService;
 
-    /** 借阅图书（传入图书ID和用户ID） */
+    /** 借阅图书 */
     @PostMapping("/borrow/{bookId}")
     public Map<String, Object> borrowBook(@PathVariable String bookId, @RequestBody Map<String, Object> body) {
         Map<String, Object> map = new HashMap<>();
@@ -30,7 +30,7 @@ public class BorrowController {
         return map;
     }
 
-    /** 归还图书（传入借阅记录ID） */
+    /** 归还图书 */
     @PostMapping("/return/{recordId}")
     public Map<String, Object> returnBook(@PathVariable String recordId) {
         Map<String, Object> map = new HashMap<>();
@@ -40,23 +40,28 @@ public class BorrowController {
         return map;
     }
 
-    /** 查询当前用户的借阅记录 */
+    /** 分页查询当前用户的借阅记录 */
     @GetMapping("/borrows/my")
-    public Map<String, Object> myBorrows(@RequestParam int userId) {
+    public Map<String, Object> myBorrows(
+            @RequestParam int userId,
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize) {
         Map<String, Object> map = new HashMap<>();
-        List<BorrowRecordBean> list = borrowService.queryMyBorrows(userId);
+        IPage<BorrowRecordBean> page = borrowService.queryMyBorrows(userId, pageNum, pageSize);
         map.put("code", 0);
-        map.put("data", list);
+        map.put("data", page);
         return map;
     }
 
-    /** 查询所有借阅记录（管理员） */
+    /** 分页查询所有借阅记录 */
     @GetMapping("/borrows/all")
-    public Map<String, Object> allBorrows() {
+    public Map<String, Object> allBorrows(
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize) {
         Map<String, Object> map = new HashMap<>();
-        List<BorrowRecordBean> list = borrowService.queryAllBorrows();
+        IPage<BorrowRecordBean> page = borrowService.queryAllBorrows(pageNum, pageSize);
         map.put("code", 0);
-        map.put("data", list);
+        map.put("data", page);
         return map;
     }
 }

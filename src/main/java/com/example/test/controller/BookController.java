@@ -1,6 +1,8 @@
 package com.example.test.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.BookBean;
+import com.example.test.mapper.BookMapper;
 import com.example.test.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,20 +21,25 @@ public class BookController {
     @Autowired
     BookService bookService;
 
-    /** 获取图书列表（支持关键词和分类筛选） */
+    @Autowired
+    BookMapper bookMapper;
+
+    /** 分页获取图书列表（支持关键词和分类筛选） */
     @GetMapping
     public Map<String, Object> listBooks(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String category) {
+            @RequestParam(required = false) String category,
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "12") int pageSize) {
         Map<String, Object> map = new HashMap<>();
-        List<BookBean> list;
+        IPage<BookBean> page;
         if (keyword != null || category != null) {
-            list = bookService.searchBooks(keyword, category);
+            page = bookService.searchBooks(keyword, category, pageNum, pageSize);
         } else {
-            list = bookService.queryAllBooks();
+            page = bookService.queryAllBooks(pageNum, pageSize);
         }
         map.put("code", 0);
-        map.put("data", list);
+        map.put("data", page);
         return map;
     }
 
@@ -81,7 +88,7 @@ public class BookController {
     @GetMapping("/categories")
     public Map<String, Object> getCategories() {
         Map<String, Object> map = new HashMap<>();
-        List<BookBean> books = bookService.queryAllBooks();
+        List<BookBean> books = bookMapper.selectList(null);
         List<String> categories = books.stream()
                 .map(BookBean::getCategory)
                 .filter(c -> c != null && !c.isEmpty())

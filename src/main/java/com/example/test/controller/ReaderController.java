@@ -1,12 +1,12 @@
 package com.example.test.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.UserBean;
 import com.example.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,15 +19,15 @@ public class ReaderController {
     @Autowired
     UserService userService;
 
-    /** 获取所有读者列表（仅返回角色为 user 的读者） */
+    /** 分页获取读者列表 */
     @GetMapping
-    public Map<String, Object> listReaders() {
+    public Map<String, Object> listReaders(
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize) {
         Map<String, Object> map = new HashMap<>();
-        List<UserBean> list = userService.queryAllUser();
-        // 过滤出角色为 user 的读者
-        list.removeIf(u -> u.getRole() == null || !u.getRole().equals("user"));
+        IPage<UserBean> page = userService.queryReaders(pageNum, pageSize);
         map.put("code", 0);
-        map.put("data", list);
+        map.put("data", page);
         return map;
     }
 

@@ -3,7 +3,13 @@
     "allow": [
       "PowerShell(D:\\\\mysql\\\\bin\\\\mysql.exe -u root --skip-password -e \"SHOW DATABASES;\" 2>&1)",
       "PowerShell(D:\\\\mysql\\\\bin\\\\mysql.exe -u root --skip-password -e \"CREATE DATABASE IF NOT EXISTS test DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci; ALTER USER 'root'@'localhost' IDENTIFIED BY '123456'; FLUSH PRIVILEGES;\" 2>&1)",
-      "Bash(cmd.exe *)"
+      "Bash(cmd.exe *)",
+      "Bash(./mvnw compile *)",
+      "Bash(mysql *)",
+      "Bash(npm --version)",
+      "Bash(rm -rf src/components src/assets src/App.vue src/main.js src/style.css public/vite.svg index.html)",
+      "Bash(mkdir -p src/router src/views)",
+      "Bash(npm run *)"
     ]
   }
 }

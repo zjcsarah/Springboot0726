@@ -1,5 +1,7 @@
 package com.example.test.serviceImpl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.test.bean.BorrowRecordBean;
 import com.example.test.mapper.BookMapper;
 import com.example.test.mapper.BorrowRecordMapper;
@@ -11,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 借阅业务逻辑实现
@@ -61,15 +62,15 @@ public class BorrowServiceImpl implements BorrowService {
         return borrowRecordMapper.returnBook(recordId, sdf.format(new Date()));
     }
 
-    /** 查询当前用户的借阅记录 */
+    /** 分页查询当前用户的借阅记录 */
     @Override
-    public List<BorrowRecordBean> queryMyBorrows(int userId) {
-        return borrowRecordMapper.selectByUserId(userId);
+    public IPage<BorrowRecordBean> queryMyBorrows(int userId, int pageNum, int pageSize) {
+        return borrowRecordMapper.selectByUserId(new Page<>(pageNum, pageSize), userId);
     }
 
-    /** 查询所有借阅记录 */
+    /** 分页查询所有借阅记录 */
     @Override
-    public List<BorrowRecordBean> queryAllBorrows() {
-        return borrowRecordMapper.selectAllRecords();
+    public IPage<BorrowRecordBean> queryAllBorrows(int pageNum, int pageSize) {
+        return borrowRecordMapper.selectAllRecords(new Page<>(pageNum, pageSize));
     }
 }
