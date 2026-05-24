@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.test.mapper.BorrowRecordMapper">
+
+    <resultMap id="borrowMap" type="com.example.test.bean.BorrowRecordBean">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="bookId" column="book_id"/>
+        <result property="borrowDate" column="borrow_date"/>
+        <result property="dueDate" column="due_date"/>
+        <result property="returnDate" column="return_date"/>
+        <result property="status" column="status"/>
+        <result property="userName" column="user_name"/>
+        <result property="bookTitle" column="book_title"/>
+    </resultMap>
+
+    <!--归还图书，更新归还日期和状态-->
+    <update id="returnBook">
+        UPDATE borrow_record SET status = 'RETURNED', return_date = #{returnDate} WHERE id = #{id}
+    </update>
+
+    <!--根据用户ID查询借阅记录，关联用户名和书名-->
+    <select id="selectByUserId" resultMap="borrowMap">
+        SELECT br.*, u.name as user_name, b.title as book_title
+        FROM borrow_record br
+        LEFT JOIN user u ON br.user_id = u.id
+        LEFT JOIN book b ON br.book_id = b.id
+        WHERE br.user_id = #{userId}
+        ORDER BY br.borrow_date DESC
+    </select>
+
+    <!--查询所有借阅记录，关联用户名和书名-->
+    <select id="selectAllRecords" resultMap="borrowMap">
+        SELECT br.*, u.name as user_name, b.title as book_title
+        FROM borrow_record br
+        LEFT JOIN user u ON br.user_id = u.id
+        LEFT JOIN book b ON br.book_id = b.id
+        ORDER BY br.borrow_date DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.test.mapper.BookMapper">
+
+    <!--更新图书可借数量，delta为正数增加，负数减少-->
+    <update id="updateAvailableQuantity">
+        UPDATE book SET available_quantity = available_quantity + #{delta} WHERE id = #{id}
+    </update>
+
+</mapper>
