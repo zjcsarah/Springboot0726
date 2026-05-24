@@ -195,7 +195,7 @@ async function borrowBook(book) {
     await ElMessageBox.confirm(`确定要借阅《${book.title}》吗？借阅期限为30天。`, '确认借阅', { type: 'info' })
     // 请求借阅接口，URL 中 book.id 是路径参数，body 中传 userId
     const res = await axios.post('/api/borrow/' + book.id, { userId: user.id })
-    if (res.data.code === 0) {
+    if (res.data.code === 200) {
       ElMessage.success('借阅成功')
       loadBooks()  // 刷新图书列表（可借数量会变化）
     } else {
@@ -221,7 +221,7 @@ async function returnBook(record) {
   try {
     await ElMessageBox.confirm('确定要归还此书吗？', '确认归还', { type: 'info' })
     const res = await axios.post('/api/return/' + record.id)
-    if (res.data.code === 0) {
+    if (res.data.code === 200) {
       ElMessage.success('归还成功')
       showMyBorrows()  // 刷新借阅记录列表
       loadBooks()      // 刷新图书列表（可借数量恢复）

@@ -118,7 +118,7 @@ async function doLogin() {
     // axios.post(url, data): 发送 POST 请求，参数自动转 JSON
     const res = await axios.post('/api/readers/login', loginForm)
     // 后端统一返回 { code: 0 成功, code: -1 失败, msg: 提示信息, data: 用户数据 }
-    if (res.data.code === 0) {
+    if (res.data.code === 200) {
       const user = res.data.data
       // sessionStorage: 浏览器标签页级存储，关闭标签页后清除
       // 存储用户信息供其他页面读取
@@ -144,7 +144,7 @@ async function doRegister() {
   regLoading.value = true
   try {
     const res = await axios.post('/api/readers/register', registerForm)
-    if (res.data.code === 0) {
+    if (res.data.code === 200) {
       ElMessage.success('注册成功，请登录')
       activeTab.value = 'login'  // 切换到登录标签页
       // 清空注册表单

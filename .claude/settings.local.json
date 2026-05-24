@@ -12,7 +12,8 @@
       "Bash(npm run *)",
       "Bash(mvn spring-boot:run -q)",
       "Bash(curl -s http://localhost:8080/api/readers?keyword=reader)",
-      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('code:', d['code'], 'total:', d['data']['total']\\)\")"
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('code:', d['code'], 'total:', d['data']['total']\\)\")",
+      "Bash(netstat -ano)"
     ]
   }
 }

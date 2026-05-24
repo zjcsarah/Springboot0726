@@ -400,7 +400,7 @@ async function saveBook() {
       ? await axios.put('/api/books/' + bookForm.id, bookForm)
       : await axios.post('/api/books', bookForm)
     // 后端统一返回 { code: 0 成功 }
-    if (res.data.code === 0) {
+    if (res.data.code === 200) {
       ElMessage.success(res.data.msg)
       bookDialogVisible.value = false  // 关闭对话框
       loadBooks()    // 刷新图书列表
@@ -416,7 +416,7 @@ async function saveBook() {
 async function deleteBook(id) {
   try {
     const res = await axios.delete('/api/books/' + id)
-    if (res.data.code === 0) { ElMessage.success('删除成功'); loadBooks(); loadCategories() }
+    if (res.data.code === 200) { ElMessage.success('删除成功'); loadBooks(); loadCategories() }
     else ElMessage.error(res.data.msg)
   } catch (e) { ElMessage.error('删除失败') }
 }
@@ -462,7 +462,7 @@ async function saveReader() {
     const res = isReaderEdit.value
       ? await axios.put('/api/readers/' + readerForm.id, data)
       : await axios.post('/api/readers/register', data)
-    if (res.data.code === 0) {
+    if (res.data.code === 200) {
       ElMessage.success(res.data.msg)
       readerDialogVisible.value = false
       loadReaders()
@@ -476,7 +476,7 @@ async function saveReader() {
 async function deleteReader(id) {
   try {
     const res = await axios.delete('/api/readers/' + id)
-    if (res.data.code === 0) { ElMessage.success('删除成功'); loadReaders() }
+    if (res.data.code === 200) { ElMessage.success('删除成功'); loadReaders() }
     else ElMessage.error(res.data.msg)
   } catch (e) { ElMessage.error('删除失败') }
 }
@@ -545,7 +545,7 @@ async function saveBorrow() {
     const res = isBorrowEdit.value
       ? await axios.put('/api/borrows/' + borrowForm.id, data)
       : await axios.post('/api/borrows', data)
-    if (res.data.code === 0) {
+    if (res.data.code === 200) {
       ElMessage.success(res.data.msg)
       borrowDialogVisible.value = false
       loadBorrowRecords()
@@ -559,7 +559,7 @@ async function saveBorrow() {
 async function deleteBorrow(id) {
   try {
     const res = await axios.delete('/api/borrows/' + id)
-    if (res.data.code === 0) { ElMessage.success('删除成功'); loadBorrowRecords() }
+    if (res.data.code === 200) { ElMessage.success('删除成功'); loadBorrowRecords() }
     else ElMessage.error(res.data.msg)
   } catch (e) { ElMessage.error('删除失败') }
 }
