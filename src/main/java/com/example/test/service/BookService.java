@@ -1,7 +1,7 @@
 package com.example.test.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.BookBean;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 图书业务逻辑接口
@@ -9,10 +9,10 @@ import com.example.test.bean.BookBean;
 public interface BookService {
 
     /** 分页查询所有图书 */
-    IPage<BookBean> queryAllBooks(int pageNum, int pageSize);
+    PageInfo<BookBean> queryAllBooks(int pageNum, int pageSize);
 
     /** 分页搜索图书（关键词+分类） */
-    IPage<BookBean> searchBooks(String keyword, String category, int pageNum, int pageSize);
+    PageInfo<BookBean> searchBooks(String keyword, String category, int pageNum, int pageSize);
 
     /** 根据ID查询图书详情 */
     BookBean queryBookById(String id);

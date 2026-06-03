@@ -1,7 +1,7 @@
 package com.example.test.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.BorrowRecordBean;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 借阅业务逻辑接口
@@ -15,10 +15,10 @@ public interface BorrowService {
     int returnBook(String recordId);
 
     /** 分页查询当前用户的借阅记录 */
-    IPage<BorrowRecordBean> queryMyBorrows(int userId, int pageNum, int pageSize);
+    PageInfo<BorrowRecordBean> queryMyBorrows(int userId, int pageNum, int pageSize);
 
     /** 分页查询所有借阅记录 */
-    IPage<BorrowRecordBean> queryAllBorrows(int pageNum, int pageSize);
+    PageInfo<BorrowRecordBean> queryAllBorrows(int pageNum, int pageSize);
 
     /** 新增借阅记录（管理员手动创建） */
     int addBorrowRecord(BorrowRecordBean record);

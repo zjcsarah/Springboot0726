@@ -71,8 +71,9 @@
 
           <!-- 分页组件 -->
           <el-pagination v-if="bookTotal > 0" style="margin-top:15px;justify-content:center"
-            v-model:current-page="bookPage" :page-size="bookPageSize" :total="bookTotal"
-            layout="total, prev, pager, next" @current-change="loadBooks" />
+            v-model:current-page="bookPage" v-model:page-size="bookPageSize" :total="bookTotal"
+            :page-sizes="[5, 10, 20, 50, 100, 500, 1500]"
+            layout="total, sizes, prev, pager, next" @current-change="loadBooks" @size-change="loadBooks" />
         </el-tab-pane>
 
         <!-- ==================== 标签页2：读者管理 ==================== -->
@@ -105,8 +106,9 @@
             </el-table-column>
           </el-table>
           <el-pagination v-if="readerTotal > 0" style="margin-top:15px;justify-content:center"
-            v-model:current-page="readerPage" :page-size="readerPageSize" :total="readerTotal"
-            layout="total, prev, pager, next" @current-change="loadReaders" />
+            v-model:current-page="readerPage" v-model:page-size="readerPageSize" :total="readerTotal"
+            :page-sizes="[5, 10, 20, 50, 100, 500, 1500]"
+            layout="total, sizes, prev, pager, next" @current-change="loadReaders" @size-change="loadReaders" />
         </el-tab-pane>
 
         <!-- ==================== 标签页3：借阅记录 ==================== -->
@@ -140,8 +142,9 @@
             </el-table-column>
           </el-table>
           <el-pagination v-if="borrowTotal > 0" style="margin-top:15px;justify-content:center"
-            v-model:current-page="borrowPage" :page-size="borrowPageSize" :total="borrowTotal"
-            layout="total, prev, pager, next" @current-change="loadBorrowRecords" />
+            v-model:current-page="borrowPage" v-model:page-size="borrowPageSize" :total="borrowTotal"
+            :page-sizes="[5, 10, 20, 50, 100, 500, 1500]"
+            layout="total, sizes, prev, pager, next" @current-change="loadBorrowRecords" @size-change="loadBorrowRecords" />
         </el-tab-pane>
 
       </el-tabs>
@@ -356,7 +359,7 @@ async function loadBooks() {
     if (searchCategory.value) params.category = searchCategory.value
     // GET 请求，params 自动拼接到 URL 后面
     const res = await axios.get('/api/books', { params })
-    books.value = res.data.data.records || []
+    books.value = res.data.data.list || []
     bookTotal.value = res.data.data.total || 0
   } catch (e) { ElMessage.error('加载图书失败') }
   bookLoading.value = false  // 隐藏加载动画
@@ -432,7 +435,7 @@ async function loadReaders() {
     const params = { pageNum: readerPage.value, pageSize: readerPageSize.value }
     if (readerKeyword.value) params.keyword = readerKeyword.value
     const res = await axios.get('/api/readers', { params })
-    readers.value = res.data.data.records || []
+    readers.value = res.data.data.list || []
     readerTotal.value = res.data.data.total || 0
   } catch (e) { ElMessage.error('加载读者失败') }
   readerLoading.value = false
@@ -490,7 +493,7 @@ async function loadBorrowRecords() {
   borrowLoading.value = true
   try {
     const res = await axios.get('/api/borrows/all', { params: { pageNum: borrowPage.value, pageSize: borrowPageSize.value } })
-    borrowRecords.value = res.data.data.records || []
+    borrowRecords.value = res.data.data.list || []
     borrowTotal.value = res.data.data.total || 0
   } catch (e) { ElMessage.error('加载借阅记录失败') }
   borrowLoading.value = false
@@ -500,7 +503,7 @@ async function loadBorrowRecords() {
 async function loadAllReadersForSelect() {
   try {
     const res = await axios.get('/api/readers', { params: { pageSize: 999 } })
-    allReaders.value = res.data.data.records || []
+    allReaders.value = res.data.data.list || []
   } catch (e) {}
 }
 
@@ -508,7 +511,7 @@ async function loadAllReadersForSelect() {
 async function loadAllBooksForSelect() {
   try {
     const res = await axios.get('/api/books', { params: { pageSize: 999 } })
-    allBooks.value = res.data.data.records || []
+    allBooks.value = res.data.data.list || []
   } catch (e) {}
 }
 

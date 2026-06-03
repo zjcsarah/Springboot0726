@@ -1,10 +1,10 @@
 package com.example.test.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.BaseResult;
 import com.example.test.bean.BookBean;
 import com.example.test.mapper.BookMapper;
 import com.example.test.service.BookService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +24,12 @@ public class BookController {
     BookMapper bookMapper;
 
     @GetMapping
-    public BaseResult<IPage<BookBean>> listBooks(
+    public BaseResult<PageInfo<BookBean>> listBooks(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "12") int pageSize) {
-        IPage<BookBean> page;
+        PageInfo<BookBean> page;
         if (keyword != null || category != null) {
             page = bookService.searchBooks(keyword, category, pageNum, pageSize);
         } else {

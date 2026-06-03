@@ -1,11 +1,11 @@
 package com.example.test.serviceImpl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.test.bean.BorrowRecordBean;
 import com.example.test.mapper.BookMapper;
 import com.example.test.mapper.BorrowRecordMapper;
 import com.example.test.service.BorrowService;
+import com.example.test.util.page.BookPageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,14 +64,16 @@ public class BorrowServiceImpl implements BorrowService {
 
     /** 分页查询当前用户的借阅记录 */
     @Override
-    public IPage<BorrowRecordBean> queryMyBorrows(int userId, int pageNum, int pageSize) {
-        return borrowRecordMapper.selectByUserId(new Page<>(pageNum, pageSize), userId);
+    @BookPageHelper
+    public PageInfo<BorrowRecordBean> queryMyBorrows(int userId, int pageNum, int pageSize) {
+        return new PageInfo<>(borrowRecordMapper.selectByUserId(userId));
     }
 
     /** 分页查询所有借阅记录 */
     @Override
-    public IPage<BorrowRecordBean> queryAllBorrows(int pageNum, int pageSize) {
-        return borrowRecordMapper.selectAllRecords(new Page<>(pageNum, pageSize));
+    @BookPageHelper
+    public PageInfo<BorrowRecordBean> queryAllBorrows(int pageNum, int pageSize) {
+        return new PageInfo<>(borrowRecordMapper.selectAllRecords());
     }
 
     /** 新增借阅记录（管理员手动创建） */

@@ -39,8 +39,9 @@
         @current-change: 页码变化事件，调用 loadBooks 重新加载
       -->
       <el-pagination v-if="total > 0" style="margin-bottom:20px;justify-content:center"
-        v-model:current-page="currentPage" :page-size="pageSize" :total="total"
-        layout="total, prev, pager, next" @current-change="loadBooks" />
+        v-model:current-page="currentPage" v-model:page-size="pageSize" :total="total"
+        :page-sizes="[5, 10, 20, 50, 100, 500, 1500]"
+        layout="total, sizes, prev, pager, next" @current-change="loadBooks" @size-change="loadBooks" />
 
       <!-- v-if 条件渲染：数据为空时显示占位图 -->
       <div v-if="books.length === 0" class="empty-state">
@@ -163,7 +164,7 @@ async function loadBooks() {
     if (category.value) params.category = category.value
     // axios.get(url, { params }): GET 请求，params 自动拼接为查询字符串 ?pageNum=1&pageSize=12
     const res = await axios.get('/api/books', { params })
-    books.value = res.data.data.records || []   // records 是当前页数据
+    books.value = res.data.data.list || []   // list 是当前页数据
     total.value = res.data.data.total || 0       // total 是总记录数
   } catch (e) { ElMessage.error('加载图书失败') }
 }
@@ -211,7 +212,7 @@ async function showMyBorrows() {
   try {
     // pageSize: 999 一次性查出所有借阅记录（一般用户借阅量不会超）
     const res = await axios.get('/api/borrows/my', { params: { userId: user.id, pageSize: 999 } })
-    myBorrows.value = res.data.data.records || []
+    myBorrows.value = res.data.data.list || []
     borrowDialogVisible.value = true   // 打开对话框
   } catch (e) { ElMessage.error('加载借阅记录失败') }
 }

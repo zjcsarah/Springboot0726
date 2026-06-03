@@ -1,7 +1,7 @@
 package com.example.test.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.UserBean;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -29,5 +29,5 @@ public interface UserService {
     List<UserBean> queryAllUser();
 
     /** 分页查询读者列表（仅角色为 user，支持关键词搜索） */
-    IPage<UserBean> queryReaders(int pageNum, int pageSize, String keyword);
+    PageInfo<UserBean> queryReaders(int pageNum, int pageSize, String keyword);
 }

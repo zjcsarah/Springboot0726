@@ -1,9 +1,9 @@
 package com.example.test.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.BaseResult;
 import com.example.test.bean.UserBean;
 import com.example.test.service.UserService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +20,7 @@ public class ReaderController {
     UserService userService;
 
     @GetMapping
-    public BaseResult<IPage<UserBean>> listReaders(
+    public BaseResult<PageInfo<UserBean>> listReaders(
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(required = false) String keyword) {

@@ -1,9 +1,9 @@
 package com.example.test.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.test.bean.BaseResult;
 import com.example.test.bean.BorrowRecordBean;
 import com.example.test.service.BorrowService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +33,7 @@ public class BorrowController {
     }
 
     @GetMapping("/borrows/my")
-    public BaseResult<IPage<BorrowRecordBean>> myBorrows(
+    public BaseResult<PageInfo<BorrowRecordBean>> myBorrows(
             @RequestParam int userId,
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
@@ -60,7 +60,7 @@ public class BorrowController {
     }
 
     @GetMapping("/borrows/all")
-    public BaseResult<IPage<BorrowRecordBean>> allBorrows(
+    public BaseResult<PageInfo<BorrowRecordBean>> allBorrows(
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
         return BaseResult.ok(borrowService.queryAllBorrows(pageNum, pageSize));
