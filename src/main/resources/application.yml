@@ -10,10 +10,8 @@ spring:
 mybatis-plus:
     mapper-locations: classpath:mapper/*.xml
     type-aliases-package: com.example.test.bean
-    configuration:
-        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
 logging:
     level:
         com.example.test.mapper: DEBUG
+        com.example.test.config.SqlLogInterceptor: DEBUG
         com.github.pagehelper: DEBUG
